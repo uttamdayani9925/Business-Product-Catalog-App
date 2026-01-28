@@ -11,6 +11,8 @@ import ContactPage from './components/ContactPage';
 import VoiceSearch from './components/VoiceSearch';
 import HomePage from './components/HomePage';
 
+import mockData from './data/mockProducts.json';
+
 const PRODUCT_SERVICE_URL = process.env.REACT_APP_PRODUCT_SERVICE_URL || '';
 const RATINGS_SERVICE_URL = process.env.REACT_APP_RATINGS_SERVICE_URL || '';
 
@@ -59,8 +61,15 @@ const MainLayout = () => {
         setError(data.message || 'Failed to fetch products');
       }
     } catch (err) {
-      setError(null); // Silent fail on homepage to avoid ugly banner if backend sleeping
-      console.error('Error fetching products:', err);
+      console.warn('Backend unreachable, switching to Demo Mode (Mock Data):', err);
+      // Fallback to Mock Data for Netlify/Demo
+      if (mockData && mockData.success) {
+        setProducts(mockData.data);
+        if (filteredProducts.length === 0) setFilteredProducts(mockData.data);
+        setError(null);
+      } else {
+        setError('Failed to load products (Demo Mode)');
+      }
     } finally {
       setLoading(false);
     }
