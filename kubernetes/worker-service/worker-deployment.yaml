@@ -1,0 +1,94 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: worker-service-config
+  namespace: product-catalog
+data:
+  NODE_ENV: "production"
+  LOG_LEVEL: "info"
+  WORKER_CONCURRENCY: "5"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-service
+  namespace: product-catalog
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: worker-service=productacr2025.azurecr.io/worker-service
+    argocd-image-updater.argoproj.io/update-strategy: latest
+    argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/git-branch: master
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: worker-service
+  template:
+    metadata:
+      labels:
+        app: worker-service
+    spec:
+      imagePullSecrets:
+        - name: acr-secret
+      containers:
+      - name: worker-service
+        image: productacr2025.azurecr.io/worker-service:57
+        imagePullPolicy: Always
+        env:
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: worker-service-config
+              key: NODE_ENV
+        - name: MONGO_URI
+          value: "mongodb://mongodb:27017/products"
+        - name: REDIS_HOST
+          value: "redis"
+        - name: REDIS_PORT
+          value: "6379"
+        - name: PRODUCT_SERVICE_URL
+          value: "http://product-service:5000"
+        - name: WORKER_CONCURRENCY
+          valueFrom:
+            configMapKeyRef:
+              name: worker-service-config
+              key: WORKER_CONCURRENCY
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: worker-service-config
+              key: LOG_LEVEL
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: worker-service-hpa
+  namespace: product-catalog
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: worker-service
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+
