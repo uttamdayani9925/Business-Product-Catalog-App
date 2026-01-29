@@ -29,7 +29,8 @@ const MainLayout = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [currentPage, setCurrentPage] = useState('home'); // home, catalog, flab (fabric lab), contact, admin, login, signup
-  // const [user, setUser] = useState(null); // Auth User (Unused in MainLayout, kept for reference if needed later)
+  // eslint-disable-next-line no-unused-vars
+  const [user, setUser] = useState(null); // Auth User
   const [token, setToken] = useState(localStorage.getItem('token')); // Auth Token
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
