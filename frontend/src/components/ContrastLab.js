@@ -167,93 +167,11 @@ const ContrastLab = () => {
                             </div>
                         </div>
 
-                        {/* Visualization Area */}
-                        {selectedLace ? (
-                            <div style={{ padding: '24px', borderRadius: '12px', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)', border: '1px solid #e7e5e4', minHeight: '600px', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', background: '#f5f5f4' }}>
-
-                                {isProcessing && (
-                                    <div style={{
-                                        position: 'absolute', inset: 0, zIndex: 50, background: 'rgba(255,255,255,0.7)',
-                                        backdropFilter: 'blur(2px)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
-                                    }}>
-                                        <Wand2 size={48} className="spin-slow" color="#7c3aed" />
-                                        <p style={{ marginTop: '16px', fontWeight: 'bold', color: '#7c3aed' }}>AI Processing...</p>
-                                    </div>
-                                )}
-
-                                {viewMode === 'single' ? (
-                                    (() => {
-                                        return (
-                                            <div style={{
-                                                position: 'relative', width: '100%', height: '550px',
-                                                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-                                                borderRadius: '8px', overflow: 'hidden', border: '4px solid white',
-                                                background: '#333' // Dark background for contrast
-                                            }}>
-                                                {/* Base Image Layer */}
-                                                <div
-                                                    style={{
-                                                        position: 'absolute', inset: 0,
-                                                        backgroundImage: `url(${selectedLace.imageUrl})`,
-                                                        backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat',
-                                                        // If coloring, make grayscale first for better tinting
-                                                        filter: activeLaceColor ? 'grayscale(100%) brightness(1.1)' : 'none',
-                                                        transition: 'all 0.5s ease-in-out'
-                                                    }}
-                                                />
-
-                                                {/* Color Tint Overlay Layer */}
-                                                {activeLaceColor && (
-                                                    <div
-                                                        style={{
-                                                            position: 'absolute', inset: 0,
-                                                            backgroundColor: activeLaceColor,
-                                                            mixBlendMode: 'multiply', // Blends color onto the white parts of the lace
-                                                            opacity: 0.85,
-                                                            transition: 'background-color 0.5s ease'
-                                                        }}
-                                                    />
-                                                )}
-                                            </div>
-                                        );
-                                    })()
-                                ) : (
-                                    /* Quad Grid View (Auto-generates variants) */
-                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', width: '100%', height: '550px' }}>
-                                        {/* Original */}
-                                        <div style={{ position: 'relative', borderRadius: '8px', overflow: 'hidden', background: '#333' }}>
-                                            <img src={selectedLace.imageUrl} style={{ width: '100%', height: '100%', objectFit: 'contain' }} alt="Original" />
-                                            <span style={{ position: 'absolute', bottom: 10, left: 10, background: 'rgba(0,0,0,0.5)', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '0.8rem' }}>Original</span>
-                                        </div>
-
-                                        {/* AI Variants */}
-                                        {[colorPalette[2], colorPalette[5], colorPalette[3]].map((variant, i) => (
-                                            <div key={i} style={{ position: 'relative', borderRadius: '8px', overflow: 'hidden', background: '#333' }}>
-                                                {/* Base Grayscale */}
-                                                <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${selectedLace.imageUrl})`, backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', filter: 'grayscale(100%) brightness(1.2)' }} />
-                                                {/* Color Blend Layer (No Mask needed for JPG Textures) */}
-                                                <div style={{
-                                                    position: 'absolute', inset: 0,
-                                                    backgroundColor: variant.color,
-                                                    mixBlendMode: 'multiply',
-                                                    opacity: 0.85,
-                                                    transition: 'background-color 0.5s ease'
-                                                }} />
-                                                <span style={{ position: 'absolute', bottom: 10, left: 10, background: 'rgba(0,0,0,0.5)', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '0.8rem' }}>
-                                                    AI {variant.name}
-                                                </span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-
-                            </div>
-                        ) : (
-                            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#a8a29e' }}>
-                                <MousePointer2 size={48} style={{ marginBottom: '16px', animation: 'bounce 1s infinite' }} />
-                                <p style={{ fontSize: '1.25rem' }}>Select a lace to visualize</p>
-                            </div>
-                        )}
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#a8a29e', background: '#f5f5f4', borderRadius: '12px', border: '1px solid #e7e5e4', minHeight: '600px' }}>
+                            <Wand2 size={48} style={{ marginBottom: '16px', color: '#dcfce7' }} />
+                            <p style={{ fontSize: '1.25rem', color: '#78716c' }}>Visualization Features Disabled</p>
+                            <p style={{ fontSize: '0.9rem', color: '#a8a29e' }}>The interactive lab is currently offline for maintenance.</p>
+                        </div>
 
                     </div>
                 </div>
