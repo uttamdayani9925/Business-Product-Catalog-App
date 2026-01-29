@@ -167,10 +167,116 @@ const ContrastLab = () => {
                             </div>
                         </div>
 
-                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#a8a29e', background: '#f5f5f4', borderRadius: '12px', border: '1px solid #e7e5e4', minHeight: '600px' }}>
-                            <Wand2 size={48} style={{ marginBottom: '16px', color: '#dcfce7' }} />
-                            <p style={{ fontSize: '1.25rem', color: '#78716c' }}>Visualization Features Disabled</p>
-                            <p style={{ fontSize: '0.9rem', color: '#a8a29e' }}>The interactive lab is currently offline for maintenance.</p>
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                            {/* Main Visualization Area */}
+                            <div style={{
+                                flex: 1,
+                                background: '#f5f5f4',
+                                borderRadius: '12px',
+                                border: '1px solid #e7e5e4',
+                                position: 'relative',
+                                overflow: 'hidden',
+                                minHeight: '600px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}>
+                                {selectedLace ? (
+                                    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                                        <div style={{
+                                            position: 'absolute',
+                                            inset: 0,
+                                            backgroundImage: `url(${selectedLace.imageUrl})`,
+                                            backgroundSize: 'cover',
+                                            backgroundPosition: 'center',
+                                            filter: activeLaceColor ? 'grayscale(100%)' : 'none',
+                                            transition: 'all 0.5s ease'
+                                        }} />
+
+                                        {/* AI Color Overlay */}
+                                        <div style={{
+                                            position: 'absolute',
+                                            inset: 0,
+                                            backgroundColor: activeLaceColor ? activeLaceColor.color : 'transparent',
+                                            mixBlendMode: 'multiply',
+                                            opacity: activeLaceColor ? 0.8 : 0,
+                                            transition: 'all 0.5s ease'
+                                        }} />
+
+                                        {/* Texture/Light Overlay for Realism */}
+                                        <div style={{
+                                            position: 'absolute',
+                                            inset: 0,
+                                            background: 'linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(0,0,0,0.1) 100%)',
+                                            mixBlendMode: 'overlay',
+                                            pointerEvents: 'none'
+                                        }} />
+
+                                        {/* AI Processing Animation Overlay */}
+                                        {isProcessing && (
+                                            <div style={{
+                                                position: 'absolute',
+                                                inset: 0,
+                                                background: 'rgba(255,255,255,0.6)',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                backdropFilter: 'blur(4px)',
+                                                zIndex: 10
+                                            }}>
+                                                <div style={{ textAlign: 'center' }}>
+                                                    <Wand2 className="spin-slow" size={48} color="#d97706" style={{ marginBottom: '16px' }} />
+                                                    <p style={{ fontWeight: 'bold', color: '#78716c' }}>AI Recoloring...</p>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                ) : (
+                                    <div style={{ textAlign: 'center', padding: '2rem' }}>
+                                        <Wand2 size={48} style={{ marginBottom: '16px', color: '#dcfce7' }} />
+                                        <p style={{ fontSize: '1.25rem', color: '#78716c' }}>Select a lace to visualize</p>
+                                        <p style={{ color: '#a8a29e' }}>Choose from the library on the left</p>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* AI Control Panel */}
+                            <div style={{ background: 'white', padding: '24px', borderRadius: '12px', border: '1px solid #e7e5e4', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                                    <h3 style={{ fontWeight: 'bold', color: '#44403c', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                        <Wand2 size={20} color="#d97706" /> AI Color Studio
+                                    </h3>
+                                    {activeLaceColor && (
+                                        <button
+                                            onClick={() => setActiveLaceColor(null)}
+                                            style={{ fontSize: '0.85rem', color: '#78716c', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}
+                                        >
+                                            Reset to Original
+                                        </button>
+                                    )}
+                                </div>
+
+                                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                                    {colorPalette.map(color => (
+                                        <button
+                                            key={color.id}
+                                            onClick={() => applyAIColor(color)}
+                                            style={{
+                                                width: '48px',
+                                                height: '48px',
+                                                borderRadius: '50%',
+                                                background: color.color,
+                                                border: activeLaceColor?.id === color.id ? '3px solid #f59e0b' : '1px solid #e5e5e5',
+                                                cursor: 'pointer',
+                                                transform: activeLaceColor?.id === color.id ? 'scale(1.1)' : 'scale(1)',
+                                                transition: 'all 0.2s',
+                                                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                                            }}
+                                            title={color.name}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
                         </div>
 
                     </div>
