@@ -8,20 +8,7 @@ const ProductDetail = ({ product, onBack, productServiceUrl, ratingsServiceUrl }
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
 
-  useEffect(() => {
-    fetchProductDetails();
-    fetchRatings();
-
-    // Refresh every 3 seconds to get updated ratings
-    const interval = setInterval(() => {
-      fetchProductDetails();
-      fetchRatings();
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [product._id]);
-
-  const fetchProductDetails = async () => {
+  const fetchProductDetails = React.useCallback(async () => {
     try {
       // Use relative URL - nginx proxies to product-service:5000
       const apiUrl = productServiceUrl ? `${productServiceUrl}/api/products/${product._id}` : `/api/products/${product._id}`;
@@ -33,9 +20,9 @@ const ProductDetail = ({ product, onBack, productServiceUrl, ratingsServiceUrl }
     } catch (err) {
       console.error('Error fetching product details:', err);
     }
-  };
+  }, [product._id, productServiceUrl]);
 
-  const fetchRatings = async () => {
+  const fetchRatings = React.useCallback(async () => {
     try {
       setLoading(true);
       // Use relative URL - nginx proxies to ratings-service:5001
@@ -50,7 +37,20 @@ const ProductDetail = ({ product, onBack, productServiceUrl, ratingsServiceUrl }
     } finally {
       setLoading(false);
     }
-  };
+  }, [product._id, ratingsServiceUrl]);
+
+  useEffect(() => {
+    fetchProductDetails();
+    fetchRatings();
+
+    // Refresh every 3 seconds to get updated ratings
+    const interval = setInterval(() => {
+      fetchProductDetails();
+      fetchRatings();
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [fetchProductDetails, fetchRatings]);
 
   const handleRatingSubmitted = () => {
     fetchProductDetails();

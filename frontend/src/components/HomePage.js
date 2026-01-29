@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 const HomePage = ({ onNavigate }) => {
-    const [offset, setOffset] = useState(0);
-
-    useEffect(() => {
-        const handleScroll = () => setOffset(window.pageYOffset);
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    // Parallax logic removed for simplification, so offset is no longer needed.
 
     return (
         <div className="homepage">

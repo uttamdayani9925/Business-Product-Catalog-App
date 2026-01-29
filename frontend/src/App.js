@@ -29,7 +29,7 @@ const MainLayout = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [currentPage, setCurrentPage] = useState('home'); // home, catalog, flab (fabric lab), contact, admin, login, signup
-  const [user, setUser] = useState(null); // Auth User
+  // const [user, setUser] = useState(null); // Auth User (Unused in MainLayout, kept for reference if needed later)
   const [token, setToken] = useState(localStorage.getItem('token')); // Auth Token
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -39,7 +39,7 @@ const MainLayout = () => {
 
   const { toggleCart, cartCount } = useCart();
 
-  const fetchProducts = async () => {
+  const fetchProducts = React.useCallback(async () => {
     try {
       setLoading(true);
       // Fix: Ensure we don't duplicate /api/products if it's already in the env var
@@ -73,7 +73,7 @@ const MainLayout = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filteredProducts.length]); // Dependencies for useCallback
 
   useEffect(() => {
     // Check for admin route on load
@@ -85,7 +85,7 @@ const MainLayout = () => {
     // Refresh products every 5 seconds
     const interval = setInterval(fetchProducts, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [fetchProducts]);
 
   const handleProductClick = (product) => {
     setSelectedProduct(product);
