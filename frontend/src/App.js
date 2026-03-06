@@ -11,8 +11,6 @@ import ContactPage from './components/ContactPage';
 import VoiceSearch from './components/VoiceSearch';
 import HomePage from './components/HomePage';
 
-import mockData from './data/mockProducts.json';
-
 const PRODUCT_SERVICE_URL = process.env.REACT_APP_PRODUCT_SERVICE_URL || '';
 const RATINGS_SERVICE_URL = process.env.REACT_APP_RATINGS_SERVICE_URL || '';
 
@@ -29,7 +27,6 @@ const MainLayout = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [currentPage, setCurrentPage] = useState('home'); // home, catalog, flab (fabric lab), contact, admin, login, signup
-  // eslint-disable-next-line no-unused-vars
   const [user, setUser] = useState(null); // Auth User
   const [token, setToken] = useState(localStorage.getItem('token')); // Auth Token
   const [loading, setLoading] = useState(true);
@@ -40,7 +37,7 @@ const MainLayout = () => {
 
   const { toggleCart, cartCount } = useCart();
 
-  const fetchProducts = React.useCallback(async () => {
+  const fetchProducts = async () => {
     try {
       setLoading(true);
       // Fix: Ensure we don't duplicate /api/products if it's already in the env var
@@ -62,19 +59,12 @@ const MainLayout = () => {
         setError(data.message || 'Failed to fetch products');
       }
     } catch (err) {
-      console.warn('Backend unreachable, switching to Demo Mode (Mock Data):', err);
-      // Fallback to Mock Data for Netlify/Demo
-      if (mockData && mockData.success) {
-        setProducts(mockData.data);
-        if (filteredProducts.length === 0) setFilteredProducts(mockData.data);
-        setError(null);
-      } else {
-        setError('Failed to load products (Demo Mode)');
-      }
+      setError(null); // Silent fail on homepage to avoid ugly banner if backend sleeping
+      console.error('Error fetching products:', err);
     } finally {
       setLoading(false);
     }
-  }, [filteredProducts.length]); // Dependencies for useCallback
+  };
 
   useEffect(() => {
     // Check for admin route on load
@@ -86,7 +76,7 @@ const MainLayout = () => {
     // Refresh products every 5 seconds
     const interval = setInterval(fetchProducts, 5000);
     return () => clearInterval(interval);
-  }, [fetchProducts]);
+  }, []);
 
   const handleProductClick = (product) => {
     setSelectedProduct(product);
