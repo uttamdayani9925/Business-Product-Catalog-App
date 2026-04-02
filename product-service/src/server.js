@@ -12,13 +12,8 @@ const PORT = process.env.PORT || 5000;
 
 // Connect to MongoDB
 connectDB().then(() => {
-  // Seed default products after database connection
-  // Run in background so it doesn't block server startup
-  setTimeout(() => {
-    seedProducts().catch(err => {
-      console.error('Seeding failed (non-critical):', err.message);
-    });
-  }, 3000); // Wait 3 seconds for DB to be fully ready
+  // DB Connected
+  console.log("DB connection established.");
 });
 
 // Middleware
@@ -43,6 +38,7 @@ app.get('/health', (req, res) => {
 app.use('/api/products', productRoutes);
 app.use('/api/upload', require('./routes/uploadRoutes'));
 app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/ai', require('./routes/aiRoutes'));
 
 // Root endpoint
 app.get('/', (req, res) => {

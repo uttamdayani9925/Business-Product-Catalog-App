@@ -1,5 +1,5 @@
 # Multi-stage build for optimization
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ COPY package*.json ./
 RUN npm install --only=production
 
 # Production stage
-FROM node:18-alpine
+FROM node:20-alpine
 
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs && \
@@ -18,14 +18,9 @@ RUN addgroup -g 1001 -S nodejs && \
 
 WORKDIR /app
 
-# Copy dependencies from builder
-COPY --from=builder /app/node_modules ./node_modules
-
-# Copy application code
-COPY . .
-
-# Change ownership to non-root user
-RUN chown -R nodejs:nodejs /app
+# Copy dependencies and code as the nodejs user
+COPY --from=builder --chown=nodejs:nodejs /app/node_modules ./node_modules
+COPY --chown=nodejs:nodejs . .
 
 USER nodejs
 

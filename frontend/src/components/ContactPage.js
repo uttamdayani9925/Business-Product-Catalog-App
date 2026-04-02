@@ -80,9 +80,9 @@ const ContactPage = () => {
 
                 <div className="product-grid" style={{ marginBottom: '0' }}>
                     {[
-                        { title: "Bridal Lehengas", img: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=500" },
-                        { title: "Designer Sarees", img: "/images/designer_saree.jpg" },
-                        { title: "Fashion Kurtis & Tops", img: "/images/fashion_kurti.png" }
+                        { title: "Bridal Lehengas", img: "/images/expansions/lehenga_1.png" },
+                        { title: "Designer Sarees", img: "/images/expansions/saree_1.png" },
+                        { title: "Fashion Kurtis & Tops", img: "/images/expansions/kurti_1.png" }
                     ].map((div, i) => (
                         <div key={i} className="product-card" style={{ cursor: 'default' }}>
                             <div style={{ position: 'relative' }}>

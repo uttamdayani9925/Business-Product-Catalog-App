@@ -5,8 +5,7 @@ npm-debug.log
 .git
 .gitignore
 README.md
-coverage
-.nyc_output
-.vscode
-.idea
+public/images
+public/images/*
+**/images
 

@@ -26,7 +26,7 @@ const RatingForm = ({ productId, onRatingSubmitted, ratingsServiceUrl }) => {
 
     try {
       // Use relative URL - nginx proxies to ratings-service:5001
-      const apiUrl = ratingsServiceUrl ? `${ratingsServiceUrl}/api/ratings` : '/api/ratings';
+      const apiUrl = ratingsServiceUrl ? ratingsServiceUrl : '/api/ratings';
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {

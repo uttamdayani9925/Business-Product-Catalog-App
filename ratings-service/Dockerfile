@@ -18,14 +18,9 @@ RUN addgroup -g 1001 -S nodejs && \
 
 WORKDIR /app
 
-# Copy dependencies from builder
-COPY --from=builder /app/node_modules ./node_modules
-
-# Copy application code
-COPY . .
-
-# Change ownership to non-root user
-RUN chown -R nodejs:nodejs /app
+# Copy dependencies and code as the nodejs user
+COPY --from=builder --chown=nodejs:nodejs /app/node_modules ./node_modules
+COPY --chown=nodejs:nodejs . .
 
 USER nodejs
 

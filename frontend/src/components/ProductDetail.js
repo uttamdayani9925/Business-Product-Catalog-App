@@ -2,247 +2,254 @@ import React, { useState, useEffect } from 'react';
 import RatingForm from './RatingForm';
 import { useCart } from '../context/CartContext';
 
+const PREMIUM_COLORS = [
+  { name: 'Royal Gold', hex: '#C5A059' },
+  { name: 'Crimson Red', hex: '#9B1B30' },
+  { name: 'Emerald Green', hex: '#046307' },
+  { name: 'Midnight Black', hex: '#1A1C1E' },
+  { name: 'Ivory White', hex: '#F5F0E8', border: '#c8c0b0' },
+  { name: 'Royal Blue', hex: '#1a3a6b' },
+];
+
 const ProductDetail = ({ product, onBack, productServiceUrl, ratingsServiceUrl }) => {
   const [productDetails, setProductDetails] = useState(product);
   const [ratings, setRatings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [selectedColor, setSelectedColor] = useState(0);
   const { addToCart } = useCart();
 
+  const images =
+    productDetails.images && productDetails.images.length > 0
+      ? productDetails.images
+      : productDetails.imageUrl
+        ? [productDetails.imageUrl]
+        : [];
+
   useEffect(() => {
+    setCurrentImageIndex(0);
     fetchProductDetails();
     fetchRatings();
-
-    // Refresh every 3 seconds to get updated ratings
     const interval = setInterval(() => {
       fetchProductDetails();
       fetchRatings();
-    }, 3000);
-
+    }, 5000);
     return () => clearInterval(interval);
   }, [product._id]);
 
   const fetchProductDetails = async () => {
     try {
-      // Use relative URL - nginx proxies to product-service:5000
-      const apiUrl = productServiceUrl ? `${productServiceUrl}/api/products/${product._id}` : `/api/products/${product._id}`;
-      const response = await fetch(apiUrl);
-      const data = await response.json();
-      if (data.success) {
-        setProductDetails(data.data);
-      }
-    } catch (err) {
-      console.error('Error fetching product details:', err);
+      const res = await fetch(`${productServiceUrl}/${product._id}`);
+      const data = await res.json();
+      if (data.success) setProductDetails(data.data);
+    } catch (e) {
+      console.error(e);
     }
   };
 
   const fetchRatings = async () => {
     try {
       setLoading(true);
-      // Use relative URL - nginx proxies to ratings-service:5001
-      const apiUrl = ratingsServiceUrl ? `${ratingsServiceUrl}/api/ratings/product/${product._id}` : `/api/ratings/product/${product._id}`;
-      const response = await fetch(apiUrl);
-      const data = await response.json();
-      if (data.success) {
-        setRatings(data.data);
-      }
-    } catch (err) {
-      console.error('Error fetching ratings:', err);
+      const res = await fetch(`${ratingsServiceUrl}/product/${product._id}`);
+      const data = await res.json();
+      if (data.success) setRatings(data.data);
+    } catch (e) {
+      console.error(e);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleRatingSubmitted = () => {
-    fetchProductDetails();
-    fetchRatings();
-  };
-
   const renderStars = (rating) => {
     const stars = [];
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 >= 0.5;
-
+    const full = Math.floor(rating);
     for (let i = 0; i < 5; i++) {
-      if (i < fullStars) {
-        stars.push(<span key={i} className="star active">★</span>);
-      } else if (i === fullStars && hasHalfStar) {
-        stars.push(<span key={i} className="star active">★</span>);
-      } else {
-        stars.push(<span key={i} className="star">☆</span>);
-      }
+      stars.push(
+        <span key={i} className={`star ${i < full ? 'active' : ''}`}>
+          {i < full ? '★' : '☆'}
+        </span>
+      );
     }
     return stars;
   };
 
+  const prevImage = () => setCurrentImageIndex(p => (p === 0 ? images.length - 1 : p - 1));
+  const nextImage = () => setCurrentImageIndex(p => (p === images.length - 1 ? 0 : p + 1));
+
   return (
-    <div>
-      <button className="btn" onClick={onBack} style={{ marginBottom: '32px', background: '#6c757d', color: 'white' }}>
+    <div className="product-detail-wrapper">
+      {/* Back Button */}
+      <button onClick={onBack} className="back-btn">
         ← Back to Products
       </button>
 
-      <div className="product-card" style={{ maxWidth: '900px', margin: '0 auto', background: '#ffffff' }}>
-        {productDetails.imageUrl ? (
-          <img
-            src={productDetails.imageUrl}
-            alt={productDetails.name}
-            className="product-card-image"
-            style={{ height: '400px' }}
-          />
-        ) : (
-          <div className="product-card-image" style={{
-            height: '400px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#a0aec0',
-            fontSize: '5rem'
-          }}>
-            📦
-          </div>
-        )}
-        <div className="product-card-content">
-          <h2 style={{ fontSize: '2rem', marginBottom: '16px' }}>{productDetails.name}</h2>
-          <div className="product-price" style={{ fontSize: '2rem', marginBottom: '20px' }}>
-            ${productDetails.price.toFixed(2)} <span style={{ fontSize: '1rem', color: '#718096' }}>/ meter</span>
+      {/* Main Split Layout */}
+      <div className="product-detail-grid">
+
+        {/* ── LEFT COLUMN: Square Image Slider ── */}
+        <div className="image-slider-column">
+          <div className="image-container">
+            {images.length > 0 ? (
+              <>
+                <img
+                  src={images[currentImageIndex]}
+                  alt={`${productDetails.name} - view ${currentImageIndex + 1}`}
+                  className="product-image"
+                />
+
+                {images.length > 1 && (
+                  <>
+                    <button onClick={prevImage} className="nav-arrow left">‹</button>
+                    <button onClick={nextImage} className="nav-arrow right">›</button>
+                    <div className="image-counter">
+                      {currentImageIndex + 1} / {images.length}
+                    </div>
+                  </>
+                )}
+              </>
+            ) : (
+              <div className="no-image">📦</div>
+            )}
           </div>
 
-          {/* NEW FEATURE: Instant Quote Card */}
-          <div style={{ background: 'white', padding: '20px', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '24px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <h4 style={{ margin: 0, color: '#2d3748', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                📄 Instant Quote Card
-              </h4>
-              <span style={{ fontSize: '0.75rem', background: '#ebf8ff', color: '#3182ce', padding: '4px 8px', borderRadius: '99px', fontWeight: 'bold' }}>B2B EXCLUSIVE</span>
+          {/* Thumbnail Strip */}
+          {images.length > 1 && (
+            <div className="thumbnail-strip">
+              {images.map((img, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentImageIndex(idx)}
+                  className={`thumb-btn ${idx === currentImageIndex ? 'active' : ''}`}
+                >
+                  <img src={img} alt={`thumb ${idx + 1}`} className="thumb-img" />
+                </button>
+              ))}
             </div>
+          )}
+        </div>
 
-            <p style={{ fontSize: '0.9rem', color: '#718096', marginBottom: '16px' }}>
-              Generate a professional specification card to share with your clients or team.
-            </p>
+        {/* ── RIGHT COLUMN: Product Details ── */}
+        <div className="product-info-column">
+          <div className="category-badge">
+            {productDetails.category}
+          </div>
 
-            <div style={{ padding: '16px', background: 'linear-gradient(135deg, #fff 0%, #f7fafc 100%)', border: '1px solid #cbd5e0', borderRadius: '8px', display: 'flex', gap: '16px', alignItems: 'center' }}>
-              <div style={{ width: '60px', height: '60px', borderRadius: '4px', overflow: 'hidden', flexShrink: 0 }}>
-                <img src={productDetails.imageUrl} alt="preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              </div>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>{productDetails.name}</div>
-                <div style={{ fontSize: '0.8rem', color: '#718096' }}>SKU: LUX-{productDetails._id.slice(-6).toUpperCase()}</div>
-              </div>
-              <button
-                onClick={() => {
-                  const btn = document.getElementById('dl-btn');
-                  const originalText = btn.innerText;
-                  btn.innerText = 'Generating...';
-                  btn.style.background = '#3182ce';
-                  setTimeout(() => {
-                    alert('Quote Card Generated! (Mock Download)');
-                    btn.innerText = originalText;
-                    btn.style.background = '#2b6cb0';
-                  }, 1500);
-                }}
-                id="dl-btn"
-                style={{
-                  background: '#2b6cb0', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontWeight: '500', transition: 'background 0.2s', fontSize: '0.9rem'
-                }}
-              >
-                Download Card
-              </button>
+          <h1 className="product-title-large">
+            {productDetails.name}
+          </h1>
+
+          <div className="rating-row">
+            <div className="star-rating">{renderStars(productDetails.averageRating || 0)}</div>
+            {productDetails.averageRating > 0 && (
+              <span className="rating-num">
+                {productDetails.averageRating.toFixed(1)}
+              </span>
+            )}
+            <span className="review-count">
+              ({ratings.length} {ratings.length === 1 ? 'review' : 'reviews'})
+            </span>
+          </div>
+
+          <div className="price-tag">
+            ${productDetails.price.toFixed(2)}
+            <span className="price-unit">/ unit</span>
+          </div>
+
+          {/* ── Color Selection ── */}
+          <div className="color-section">
+            <div className="color-header">
+              <h4 className="color-title">Available Colors</h4>
+              <span className="color-badge">
+                {PREMIUM_COLORS[selectedColor].name}
+              </span>
+            </div>
+            <div className="color-swatches">
+              {PREMIUM_COLORS.map((color, idx) => (
+                <button
+                  key={idx}
+                  title={color.name}
+                  onClick={() => setSelectedColor(idx)}
+                  className={`color-swatch ${idx === selectedColor ? 'active' : ''}`}
+                  style={{ background: color.hex }}
+                />
+              ))}
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: '16px', marginBottom: '20px' }}>
-            <button
-              onClick={() => addToCart(productDetails)}
-              className="btn btn-primary"
-              style={{ flex: 1, fontSize: '1.2rem', padding: '16px', background: '#d97706', border: 'none' }}
-            >
-              Add Quote Request
+          <p className="product-description">
+            {productDetails.description}
+          </p>
+
+          <div className="action-buttons">
+            <button onClick={() => addToCart(productDetails)} className="add-to-cart-btn">
+              Add to Quote
             </button>
             <a
-              href={`https://wa.me/919876543210?text=Hi, I am interested in ${encodeURIComponent(productDetails.name)}`}
+              href={`https://wa.me/919979504265?text=Inquiry for ${encodeURIComponent(productDetails.name)}`}
               target="_blank"
               rel="noreferrer"
-              className="btn"
-              style={{
-                background: '#25D366',
-                color: 'white',
-                flex: 1,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                textDecoration: 'none',
-                fontSize: '1.1rem'
-              }}
+              className="whatsapp-btn"
             >
               💬 WhatsApp
             </a>
           </div>
-          <div className="rating" style={{ margin: '20px 0' }}>
-            {productDetails.averageRating > 0 ? (
-              <div className="rating-badge" style={{ fontSize: '1rem', padding: '6px 12px' }}>
-                <div className="stars">{renderStars(productDetails.averageRating)}</div>
-                <span>{productDetails.averageRating.toFixed(1)}</span>
+
+          {/* Instant Quote Card */}
+          <div className="quote-card-container">
+            <div className="quote-card-header">
+              <h4>📄 Instant Quote Card</h4>
+              <span className="b2b-badge">B2B EXCLUSIVE</span>
+            </div>
+            <div className="quote-card-content">
+              <div className="quote-image-preview">
+                <img src={images[0] || '/placeholder.png'} alt="preview" />
               </div>
-            ) : null}
-            <span className="rating-count" style={{ fontSize: '0.9375rem' }}>
-              ({ratings ? ratings.length : (productDetails.ratingsCount || 0)} {(ratings ? ratings.length : productDetails.ratingsCount) === 1 ? 'review' : 'reviews'})
-            </span>
-          </div>
-          <p style={{ marginBottom: '24px', lineHeight: '1.8', fontSize: '1.1rem', color: '#4a5568' }}>
-            {productDetails.description}
-          </p>
-          <div className="product-category" style={{ fontSize: '0.875rem', marginTop: '16px' }}>
-            {productDetails.category}
+              <div className="quote-text">
+                <div className="quote-name">{productDetails.name}</div>
+                <div className="quote-sku">SKU: LUX-{productDetails._id.slice(-6).toUpperCase()}</div>
+              </div>
+              <button onClick={() => alert('Quote card feature coming soon!')} className="download-btn">
+                Download
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      <RatingForm
-        productId={product._id}
-        onRatingSubmitted={handleRatingSubmitted}
-        ratingsServiceUrl={ratingsServiceUrl}
-      />
+      {/* ── Reviews Section ── */}
+      <div className="reviews-section">
+        <RatingForm
+          productId={product._id}
+          onRatingSubmitted={() => { fetchProductDetails(); fetchRatings(); }}
+          ratingsServiceUrl={ratingsServiceUrl}
+        />
 
-      <div className="rating-form" style={{ marginTop: '48px', maxWidth: '900px' }}>
-        <h3 style={{ textAlign: 'center' }}>Customer Reviews ({ratings.length})</h3>
-        {loading ? (
-          <div className="loading" style={{ padding: '40px', color: '#718096' }}>Loading reviews...</div>
-        ) : ratings.length === 0 ? (
-          <p style={{ color: '#718096', fontSize: '1.1rem', textAlign: 'center', padding: '40px' }}>
-            No reviews yet. Be the first to review!
-          </p>
-        ) : (
-          <div>
-            {ratings.map((rating) => (
-              <div
-                key={rating._id}
-                style={{
-                  padding: '20px',
-                  marginBottom: '16px',
-                  background: '#f8f9fa',
-                  borderRadius: '8px',
-                  borderLeft: '3px solid #0d6efd'
-                }}
-              >
-                <div className="rating" style={{ marginBottom: '12px' }}>
-                  <div className="stars">{renderStars(rating.rating)}</div>
-                  <span style={{ marginLeft: '12px', fontWeight: '600', color: '#1a202c' }}>
-                    {rating.rating} out of 5
-                  </span>
+        <div className="reviews-list">
+          <h3 className="reviews-title">
+            Customer Reviews ({ratings.length})
+          </h3>
+          {loading ? (
+            <div className="loading">Loading reviews...</div>
+          ) : ratings.length === 0 ? (
+            <p className="no-reviews">No reviews yet. Be the first to review!</p>
+          ) : (
+            ratings.map(r => (
+              <div key={r._id} className="review-item">
+                <div className="review-rating">
+                  <div className="stars">{renderStars(r.rating)}</div>
+                  <span className="rating-text">{r.rating}/5</span>
                 </div>
-                {rating.comment && (
-                  <p style={{ marginBottom: '12px', color: '#4a5568', lineHeight: '1.6' }}>{rating.comment}</p>
-                )}
-                <div style={{ fontSize: '0.875rem', color: '#718096', fontWeight: '500' }}>
-                  User: {rating.userId} • {new Date(rating.createdAt).toLocaleDateString()}
+                {r.comment && <p className="review-comment">{r.comment}</p>}
+                <div className="review-meta">
+                  {r.userId} • {new Date(r.createdAt).toLocaleDateString()}
                 </div>
               </div>
-            ))}
-          </div>
-        )}
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
 export default ProductDetail;
-

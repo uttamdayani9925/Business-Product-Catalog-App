@@ -13,7 +13,7 @@ services:
     networks:
       - product-catalog-network
     healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -29,7 +29,7 @@ services:
     networks:
       - product-catalog-network
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: [ "CMD", "redis-cli", "ping" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -46,11 +46,15 @@ services:
       - NODE_ENV=development
       - MONGO_URI=mongodb://mongodb:27017/products
       - LOG_LEVEL=info
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - NVIDIA_API_KEY=${NVIDIA_API_KEY}
     depends_on:
       mongodb:
         condition: service_healthy
     networks:
       - product-catalog-network
+    volumes:
+      - ./product-service/public/images:/app/public/images:rw
     restart: unless-stopped
 
   ratings-service:
@@ -112,19 +116,21 @@ services:
         - REACT_APP_RATINGS_API=
     container_name: product-catalog-frontend
     ports:
-      - "3000:80"  # Access frontend at http://localhost:3000
+      - "3000:80" # Access frontend at http://localhost:3000
     depends_on:
       - product-service
       - ratings-service
     networks:
       - product-catalog-network
+    volumes:
+      - ./frontend/public/images:/usr/share/nginx/html/images:ro
     restart: unless-stopped
 
 volumes:
   mongodb_data:
   redis_data:
 
+
 networks:
   product-catalog-network:
     driver: bridge
-
