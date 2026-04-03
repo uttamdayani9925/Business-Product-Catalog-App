@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      padding: 60px; 
+      background: white; 
+      margin: 0;
+  }
+  h1 { 
+      text-align: center; 
+      color: #1a365d; 
+      margin-bottom: 40px; 
+      font-size: 42px; 
+      font-weight: 700;
+  }
+  .chart-container {
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 0;
+      background: #ffffff;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      position: relative;
+  }
+  .grid {
+      display: grid;
+      grid-template-columns: 180px repeat(12, 1fr);
+  }
+  .header-cell {
+      background: #f8fafc;
+      padding: 25px 0;
+      text-align: center;
+      font-weight: 600;
+      color: #334155;
+      font-size: 18px;
+      border-bottom: 2px solid #cbd5e1;
+      border-right: 1px solid #e2e8f0;
+  }
+  .header-cell:first-child {
+      border-top-left-radius: 10px;
+  }
+  .header-cell:last-child {
+      border-right: none;
+      border-top-right-radius: 10px;
+  }
+  .row-label {
+      padding-left: 30px;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      color: #0f172a;
+      font-size: 20px;
+      border-bottom: 1px solid #e2e8f0;
+      border-right: 1px solid #e2e8f0;
+      height: 100px;
+  }
+  .cell {
+      border-bottom: 1px solid #e2e8f0;
+      border-right: 1px solid #e2e8f0;
+      height: 100px;
+      position: relative;
+  }
+  .cell:last-child, .header-cell:last-child {
+      border-right: none;
+  }
+  .grid .row-label:last-of-type, .grid .cell:nth-last-child(-n+12) {
+      border-bottom: none;
+  }
+  
+  /* Bars */
+  .bar {
+      position: absolute;
+      top: 25px;
+      bottom: 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+      z-index: 10;
+  }
+  .blue { background: #2563eb; }
+  .green { background: #22c55e; }
+
+  /* Positioning (Assuming 100% width per cell) */
+  /* Planning: W1 - W3 */
+  .bar-planning { left: 10%; width: 280%; }
+  
+  /* Design: W3 - W5 */
+  .bar-design { left: 10%; width: 280%; }
+  
+  /* Development: W5 - W9 */
+  .bar-dev { left: 10%; width: 480%; }
+  
+  /* Testing: W10 - W12 */
+  .bar-test { left: 10%; width: 280%; }
+
+</style>
+</head>
+<body>
+  <h1>12-Week Project Timeline</h1>
+  
+  <div class="chart-container">
+    <div class="grid">
+      <!-- Header Row -->
+      <div class="header-cell"></div>
+      <div class="header-cell">Week 1</div>
+      <div class="header-cell">Week 2</div>
+      <div class="header-cell">Week 3</div>
+      <div class="header-cell">Week 4</div>
+      <div class="header-cell">Week 5</div>
+      <div class="header-cell">Week 6</div>
+      <div class="header-cell">Week 7</div>
+      <div class="header-cell">Week 8</div>
+      <div class="header-cell">Week 9</div>
+      <div class="header-cell">Week 10</div>
+      <div class="header-cell">Week 11</div>
+      <div class="header-cell">Week 12</div>
+
+      <!-- Planning Row -->
+      <div class="row-label">Planning</div>
+      <div class="cell"><div class="bar blue bar-planning"></div></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+
+      <!-- Design Row -->
+      <div class="row-label">Design</div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"><div class="bar blue bar-design"></div></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+
+      <!-- Development Row -->
+      <div class="row-label">Development</div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"><div class="bar green bar-dev"></div></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+
+      <!-- Testing Row -->
+      <div class="row-label">Testing & QA</div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"><div class="bar green bar-test"></div></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+  </div>
+  
+  <div style="text-align: right; margin-top: 20px; font-weight: 500; font-size: 16px; color: #64748b;">
+      <span style="color: #2563eb;">■</span> Phase 1 & 2 &nbsp;&nbsp;&nbsp; 
+      <span style="color: #22c55e;">■</span> Phase 3 & 4
+  </div>
+</body>
+</html>

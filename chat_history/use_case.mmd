@@ -1,0 +1,23 @@
+graph LR
+    Buyer(B2B Wholesale Buyer)
+    Admin(Catalogue Admin)
+
+    subgraph Luxe Laces System
+        UC1(Browse Products & Categories)
+        UC2(Execute Global Voice Search)
+        UC3(Use AI Lace Lab)
+        UC4(Submit WhatsApp B2B Inquiry)
+        UC5(Submit Product Rating)
+        UC6(Authenticate / Login)
+        UC7(Run Seeding Scripts)
+    end
+
+    Buyer --> UC1
+    Buyer --> UC2
+    Buyer --> UC3
+    Buyer --> UC4
+    Buyer --> UC5
+
+    Admin --> UC1
+    Admin --> UC6
+    Admin --> UC7

@@ -1,0 +1,205 @@
+# PAGE LAYOUT & FORMATTING RULES
+Please set up your Word Document / Google Doc with the following rules BEFORE pasting the content below:
+
+1. Margins: Left = 1.25", Right = 1.0", Top = 1.0", Bottom = 1.0"
+2. Paper Size: A4 (210mm x 297mm)
+3. Font: Times New Roman throughout.
+4. Line Spacing: 1.5 spacing for regular text. Double spacing between paragraphs and headings.
+5. Font Sizes:
+   - Chapter Headings: 16pt, BOLD, ALL CAPS
+   - Section Headings (e.g., 1.1): 14pt, BOLD, ALL CAPS
+   - Subsection Headings (e.g., 1.1.1): 12pt, BOLD, Title Case
+   - Regular Text: 12pt, Normal
+6. Header/Footer:
+   - Header Top-Left: PRJ-DEV-INT-019-01
+   - Header Top-Right: [Current Chapter Name]
+   - Footer Bottom-Left: DEPSTAR
+   - Footer Bottom-Right: [Page Number] (Center starting from Chapter 1)
+7. Assembly Instructions: Export this document to PDF and merge it behind the provided single-page PDFs:
+   - Page 1: Cover Page (8 sem - Cover page (1).pdf)
+   - Page 2: Inner Cover Page
+   - Page 3: Candidate Declaration (8 sem - Candidate declaration (1).pdf)
+   - Page 4: Company Certificate (Certificate of Internship - Uttam Dayani 2026.pdf)
+   - Page 5: College/University Certificate (8 sem - Certificate (1).pdf)
+   - Page 6+: Abstract, Acknowledgement, ToC, Chapters 1-9.
+
+=== COPY CONTENT BELOW THIS LINE ===
+
+ABSTRACT
+
+This project, titled "Luxe Laces: Product Catalogue & Ratings App Using Microservices and DevOps Pipeline," modernizes the B2B wholesale distribution process by transitioning from traditional physical catalogs to a high-performance, containerized digital platform. The core objective was to build a highly scalable, premium e-commerce interface backed by a robust microservices architecture. By isolating specific business domains—namely the Product Catalog Service and the Ratings Service—into independent Node.js RESTful APIs connected via an Nginx reverse proxy, the system achieves maximum stability and scalability. 
+
+The frontend, built with React, features a premium split-layout UX, global search, and voice-assisted query execution. Advanced features include 1:1 aspect ratio image sliders mapping dual high-resolution fabric scans to individual SKUs, and immediate WhatsApp B2B lead generation. The entire stack (React, Node.js, MongoDB, Redis) is successfully containerized using Docker and Docker Compose, fulfilling modern DevOps deployment practices and establishing a foundation for CI/CD integrations.
+
+
+ACKNOWLEDGEMENT
+
+I would like to express my sincere gratitude to my internal and external guides for their invaluable support, technical direction, and continuous encouragement throughout this internship and project development phase. Their expertise in DevOps, microservices, and React-based architecture significantly contributed to the successful completion of the "Luxe Laces" platform. 
+
+Furthermore, I extend my appreciation to the faculty members of DEPSTAR and my peers for their constructive feedback and collaborative spirit. Setting up a fully containerized pipeline required navigating complex Nginx and Docker configurations, an endeavor made possible by the foundational knowledge instilled by my university.
+
+
+TABLE OF CONTENTS
+(Note: Add Word's Auto-TOC here)
+
+
+LIST OF FIGURES
+Figure 1: Gantt Chart for Project Scheduling
+Figure 2: Current vs Proposed System Flow
+Figure 3: High-Level Architecture Diagram
+Figure 4: Docker Container Orchestration Diagram
+Figure 5: Premium Split-Layout Product Detail View
+Figure 6: Global Search and Voice Engine Interface
+
+
+LIST OF TABLES
+Table 1: User Characteristics
+Table 2: Hardware and Software Requirements
+Table 3: Data Dictionary - Products
+Table 4: Test Cases and Scenarios
+
+
+1.0 INTRODUCTION
+
+1.1 INTRODUCTION
+The project "Luxe Laces" is a sophisticated, container-based web application tailored for B2B fashion and lace wholesale. It provides a digital catalog interface allowing users to explore different types of laces (Cotton, Polyester, GPO) with associated ratings, directly forwarding bulk inquiries via WhatsApp.
+
+1.2 PURPOSE
+The primary purpose is to eliminate physical, static catalog dependencies for wholesale buyers and replace them with a dynamic, highly available digital system. The use of microservices ensures that the catalog discovery (Product Service) operates independently of user feedback (Ratings Service), preventing bottlenecks.
+
+1.3 PROBLEM DEFINITION
+Wholesale distributors traditionally rely on static image folders or PDF catalogs, leading to outdated inventory displays, cropped images, and a lack of immediate inquiry pipelines. The existing digital solutions lacked premium aesthetics, robust search features (like voice search), and failed under heavy concurrent loads due to monolithic architectures.
+
+1.4 SCOPE
+The scope includes deploying an Nginx-proxied microservices backend (Node.js/MongoDB) and a premium React frontend. It features custom seeding scripts for bulk image linking (Riva Fashion and Gurukrupa Exports), voice search functionalities, and Dockerized deployment. Future live payment integration remains out of scope for this phase.
+
+1.5 TECHNOLOGY AND LITERATURE REVIEW
+The chosen tech stack—MERN (MongoDB, Express, React, Node.js) combined with Docker and Redis—represents the industry standard for scalable applications. Docker ensures environment consistency across development and production, while Redis provides caching layers preventing database overload.
+
+
+2.0 PROJECT MANAGEMENT
+
+2.1 PROJECT PLANNING
+- Managerial Approach: Agile methodology with two-week sprints.
+- Effort, Time, and Cost Estimation: 12-week timeline. Cost primarily focused on cloud hosting configurations and domain setups.
+- Organization and Roles: Uttambhai Dayani (Lead Developer & DevOps Engineer).
+- Dependencies: Requires continuous local Docker engine availability and stable MongoDB instances.
+
+2.2 PROJECT SCHEDULING
+(Insert Gantt/PERT Chart Image here: Weeks 1-6 focusing on DevOps and Service Setup; Weeks 7-12 focusing on UI, Search, and Final Integration).
+
+
+3.0 SYSTEM REQUIREMENTS STUDY
+
+3.1 USER CHARACTERISTICS
+Target users are B2B wholesale buyers, fashion designers, and internal catalogue administrators. Buyers demand rapid search, high-resolution uncropped images, and instant contact methods.
+
+3.2 HARDWARE AND SOFTWARE REQUIREMENTS
+- Hardware (Development): Minimum 8GB RAM, i5 Processor, 50GB Storage.
+- Software: Windows/Linux WSL, Docker Desktop, Node.js (v18/v20), React (v18), Git for version control.
+- Hardware (Production Host): Cloud Instance (e.g., AWS EC2/DigitalOcean Droplet) with minimum 2GB RAM.
+
+3.3 ASSUMPTIONS AND DEPENDENCIES
+It is assumed that the client machine runs a modern web browser capable of executing the Web Speech API for voice search. The Docker daemon must be actively running to spin up the local clusters.
+
+
+4.0 SYSTEM ANALYSIS
+
+4.1 STUDY OF CURRENT SYSTEM
+The previous workflow involved manually sharing specific folders ("Riva Fashion Laces", "Gurukrupa 2nd Laces") via cloud links or chat applications whenever a buyer requested designs.
+
+4.2 WEAKNESSES OF CURRENT SYSTEM
+Manual sharing is prone to human error, delays, and disjointed client experiences. Furthermore, it completely lacks tracking metrics like average ratings or product popularity.
+
+4.3 REQUIREMENTS OF NEW SYSTEM
+A unified web interface capable of displaying 300+ SKUs with real-time text/voice search, backed by an architecture that will not crash under sudden demand spikes.
+
+4.4 FEASIBILITY STUDY
+- Economic Feasibility: High. Utilizing open-source tools (Docker, React, Node.js) results in zero software licensing costs.
+- Technical Feasibility: High. The technologies are well-documented, widely supported, and fit perfectly within modern DevOps paradigms.
+- Operational Feasibility: High. The UI is designed to be highly intuitive with a 1:1 split-screen desktop layout and responsive mobile views.
+
+4.5 NEW SYSTEM ACTIVITY PROCESS
+Users arrive via the browser -> Nginx proxies connection to React -> React fetches JSON from Node.js Product Service -> User filters via Search/Voice -> User views product -> User clicks WhatsApp Inquiry.
+
+4.6 FEATURES OF NEW SYSTEM
+Modular UI components, Docker-Compose network isolation, dual-image GPO sliders, auto-seeding database scripts.
+
+4.7 PROCESS MODELING
+(Insert Document Flow / Data Flow Diagram - DFD here)
+
+4.8 DATA MODELING AND DATA DICTIONARY
+Product Collection: `_id` (ObjectId), `name` (String), `category` (String), `price` (Number), `images` (Array of Strings). 
+
+4.9 MAIN MODULES
+1. Frontend Application (React/Nginx)
+2. Product Catalogue Microservice (Node.js/Express)
+3. Ratings Microservice (Node.js/Express)
+4. Worker Service
+5. Databases (MongoDB, Redis)
+
+4.10 SELECTION OF HARDWARE AND SOFTWARE
+Docker guarantees software agnostic deployment. Selected Node.js/React based on high I/O throughput capabilities mapping specifically to API heavy architectures.
+
+
+5.0 SYSTEM DESIGN
+
+5.1 APPLICATION DESIGN
+The application follows the MVC (Model-View-Controller) design pattern within the backend services and a Component-Based architecture for the frontend. Services communicate strictly via REST APIs over the internal Docker bridge network.
+
+5.2 INPUT/OUTPUT AND INTERFACE DESIGN
+The interface utilizes a "Luxe" theme (Gold and Deep Charcoal). Product Details exhibit a 1:1 right-split aspect ratio, ensuring fabric scans are never dynamically cropped by CSS rules. Input mechanisms include interactive color swatches and the Web Speech API integration.
+
+
+6.0 IMPLEMENTATION PLANNING
+
+6.1 IMPLEMENTATION ENVIRONMENT
+Local development via Windows Subsystem for Linux (WSL). Database instances are decoupled from host OS via containerization. 
+
+6.2 MODULE SPECIFICATIONS
+- Nginx Conf: Configured to map `/api/products(.*)` to `http://product-service:5002` and `/api/ratings(.*)` to `http://ratings-service:5003`. 
+- Seeding Script (`reseed_gpo_clean.js`): Automatically purges erratic string names and enforces 1-to-1 file matching for Riva 1 and Riva 2 folders.
+
+6.3 SECURITY FEATURES
+Hidden underlying service ports; only port 3000 (Frontend) is exposed to the host machine. 
+
+6.4 CODING STANDARDS
+Strict adherence to ES6 JavaScript paradigms. Functional React components with specific React Hooks (`useState`, `useEffect`) manage localized state, while `CartContext` handles global states.
+
+
+7.0 TESTING
+
+7.1 TESTING PLAN
+Iterative testing after microservice linkage. Final end-to-end integration testing of the Docker stack.
+
+7.2 TESTING STRATEGY
+Black-box testing on the UI elements (Search accuracy, tab filtering validation). White-box testing on proxy routing rules and script database mutations.
+
+7.3 TEST SUITES AND CASES
+- Case 01: Verify Nginx Routing. Condition: Access `/api/ratings/add`. Expected: Maps to internal 5003 POST. Status: PASS.
+- Case 02: Search Filters. Condition: Enter "Cotton". Expected: Only Cotton Laces remain visible; category filters bypass. Status: PASS.
+- Case 03: GPO Reseeding. Condition: Run `reseed_gpo_clean.js`. Expected: Exactly 157 documents in MongoDB containing 2 unique image strings. Status: PASS.
+
+
+8.0 CONCLUSION AND DISCUSSION
+
+8.1 VIABILITY ANALYSIS
+The application proves exceptionally viable for deployment to cloud infrastructures utilizing container orchestration like Kubernetes or AWS ECS, directly correlating with the fundamental project goals.
+
+8.2 PROBLEMS ENCOUNTERED
+Primary friction involved Nginx trailing slash mishandling leading to 404 Route Not Found errors across the independent microservices, which required advanced Regex matching inside `nginx.conf` to rectify.
+
+8.3 SUMMARY
+Luxe Laces stands as a robust enterprise solution demonstrating high proficiency in Full-Stack MERN development merged with strict DevOps methodologies and container deployment.
+
+
+9.0 LIMITATION AND FUTURE ENHANCEMENT
+Limitations: Currently relies on local static file directories mounted within the container rather than an external CDN like AWS S3. 
+Future Enhancements: Integration of real-time inventory decrement logic, WebSockets for live user notifications, and transition to a managed Kubernetes cluster.
+
+
+BIBLIOGRAPHY
+1. Docker Documentation[Online]. Available: https://docs.docker.com/ (Comprehensive guide utilized for creating Dockerfiles and orchestration files).
+2. Nginx Reverse Proxy Documentation[Online]. Available: https://docs.nginx.com/ (Reference for formulating internal routing algorithms).
+3. React Web Speech API implementation[Online]. Available: https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API (Core logic behind hands-free search features).
+4. MongoDB Aggregation Framework. Available: https://www.mongodb.com/docs/ (Utilized for database checking and seeding methodologies).

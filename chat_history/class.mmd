@@ -1,0 +1,40 @@
+classDiagram
+  direction TB
+
+  class ReactFrontend {
+    +useState() Array
+    +handleVoiceSearch() string
+    +renderSplitLayout() DOM
+    +sendWhatsApp() URL
+  }
+
+  class NginxReverseProxy {
+    +proxy_pass products 5002
+    +proxy_pass ratings 5003
+  }
+
+  class ProductService {
+    +fetchProducts() JSON
+    +seedingAlgorithm() Boolean
+  }
+
+  class RatingsService {
+    +submitRating(productId, value)
+  }
+
+  class Product_Schema_DB {
+    +ObjectId _id
+    +String name
+    +String category
+  }
+
+  class Rating_Schema_DB {
+    +ObjectId _id
+    +Number rating_value
+  }
+
+  ReactFrontend --|> NginxReverseProxy : HTTP Fetch
+  NginxReverseProxy --|> ProductService : Port 5002
+  NginxReverseProxy --|> RatingsService : Port 5003
+  ProductService --|> Product_Schema_DB : Mongoose Write/Read
+  RatingsService --|> Rating_Schema_DB : Mongoose Write/Read
