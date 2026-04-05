@@ -35,12 +35,10 @@ async function run() {
                 description: 'Magnificent bridal lehenga with heavy traditional maroon zardozi embroidery. Premium velvet fabric with intricate stone work. A masterpiece of traditional craftsmanship.',
                 price: 2200.00,
                 category: 'Bridal Lehengas',
-                imageUrl: 'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-8_orig.jpg',
+                imageUrl: '/images/expansions/bridal_lehenga_1.png',
                 images: [
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-8_orig.jpg',
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-11_orig.jpg',
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-13_orig.jpg',
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-15_orig.jpg'
+                    '/images/expansions/bridal_lehenga_1.png',
+                    '/images/expansions/bridal_lehenga_2.png'
                 ]
             },
             {
@@ -48,12 +46,10 @@ async function run() {
                 description: 'Classic crimson red bridal lehenga with royal velvet finish and heavy gold embroidery. Perfect for a traditional royal wedding theme.',
                 price: 1950.00,
                 category: 'Bridal Lehengas',
-                imageUrl: 'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-50_orig.jpg',
+                imageUrl: '/images/expansions/bridal_lehenga_2.png',
                 images: [
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-50_orig.jpg',
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-51_orig.jpg',
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-55_orig.jpg',
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-56_orig.jpg'
+                    '/images/expansions/bridal_lehenga_2.png',
+                    '/images/expansions/bridal_lehenga_1.png'
                 ]
             },
             {
@@ -61,11 +57,9 @@ async function run() {
                 description: 'Sophisticated ivory based lehenga with heavy gold metallic thread work. Elegant and modern take on traditional bridal wear.',
                 price: 1800.00,
                 category: 'Bridal Lehengas',
-                imageUrl: 'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-39_orig.jpg',
+                imageUrl: '/images/expansions/bridal_lehenga_1.png',
                 images: [
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-39_orig.jpg',
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-41_orig.jpg',
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-42_orig.jpg'
+                    '/images/expansions/bridal_lehenga_1.png'
                 ]
             },
             {
@@ -73,11 +67,9 @@ async function run() {
                 description: 'Vibrant and fresh mint green pastel lehenga for the modern bride. Features delicate floral motifs and sequin detailing.',
                 price: 1650.00,
                 category: 'Bridal Lehengas',
-                imageUrl: 'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-70_orig.jpg',
+                imageUrl: '/images/expansions/bridal_lehenga_2.png',
                 images: [
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-70_orig.jpg',
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-73_orig.jpg',
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-74_orig.jpg'
+                    '/images/expansions/bridal_lehenga_2.png'
                 ]
             },
 
@@ -87,12 +79,9 @@ async function run() {
                 description: 'Exquisite teal blue silk saree with designer hand-woven borders. A regal choosing for formal celebrations and luxury events.',
                 price: 950.00,
                 category: 'Designer Sarees',
-                imageUrl: 'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-22_orig.jpg',
+                imageUrl: '/images/expansions/designer_saree_1.png',
                 images: [
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-22_orig.jpg',
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-25_orig.jpg',
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-28_orig.jpg',
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-30_orig.jpg'
+                    '/images/expansions/designer_saree_1.png'
                 ]
             },
             {
@@ -100,11 +89,9 @@ async function run() {
                 description: 'Stunning emerald green festive saree featuring a sophisticated silhouette and delicate ethnic textures.',
                 price: 850.00,
                 category: 'Designer Sarees',
-                imageUrl: 'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-60_orig.jpg',
+                imageUrl: '/images/expansions/designer_saree_1.png',
                 images: [
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-60_orig.jpg',
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-61_orig.jpg',
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-62_orig.jpg'
+                    '/images/expansions/designer_saree_1.png'
                 ]
             },
 
@@ -114,12 +101,9 @@ async function run() {
                 description: 'Vibrant sunshine yellow festive kurti with intricate ethnic embroidery. Perfect for light celebrations and daytime festivities.',
                 price: 450.00,
                 category: 'Fashion Kurtis & Tops',
-                imageUrl: 'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-31_orig.jpg',
+                imageUrl: '/images/expansions/fashion_kurti_1.png',
                 images: [
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-31_orig.jpg',
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-33_orig.jpg',
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-35_orig.jpg',
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-36_orig.jpg'
+                    '/images/expansions/fashion_kurti_1.png'
                 ]
             },
             {
@@ -127,11 +111,9 @@ async function run() {
                 description: 'Modern peach fusion ethnic set combining traditional embroidery with a contemporary cut. Lightweight and stylish.',
                 price: 550.00,
                 category: 'Fashion Kurtis & Tops',
-                imageUrl: 'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-4_orig.jpg',
+                imageUrl: '/images/expansions/fashion_kurti_1.png',
                 images: [
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-4_orig.jpg',
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-5_orig.jpg',
-                    'https://www.bringitonline.in/uploads/2/2/4/5/22456530/bridal-lehenga-editorial-photography-delhi-6_orig.jpg'
+                    '/images/expansions/fashion_kurti_1.png'
                 ]
             }
         ];
